@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "./Components/Header";
 import AppContainer from "./Components/AppContainer";
+import FormField from "./Components/FormField";
 
 const formFields = [
   { id: 1, label: "First Name", input: "text" },
@@ -18,15 +19,7 @@ function App() {
           title={"Welcome to Lesson 5 of $react-typescript with #tailwind"}
         />
         {formFields.map((field) => (
-          <React.Fragment key={field.id}>
-            <label className="m-2" htmlFor="">
-              {field.label}
-            </label>
-            <input
-              className="border-2 border-gray-200 rounded-lg p-2 m-2 w-full focus:outline-blue-500"
-              type={field.input}
-            />
-          </React.Fragment>
+          <FormField field={field} />
         ))}
         <input
           className="bg-blue-500 px-3 py-2 rounded-md text-white font-semibold m-2"

@@ -19,7 +19,7 @@ function App() {
           title={"Welcome to Lesson 5 of $react-typescript with #tailwind"}
         />
         {formFields.map((field) => (
-          <FormField field={field} />
+          <FormField key={field.id} field={field} />
         ))}
         <input
           className="bg-blue-500 px-3 py-2 rounded-md text-white font-semibold m-2"

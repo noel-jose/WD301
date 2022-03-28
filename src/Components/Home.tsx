@@ -15,6 +15,12 @@ export default function Home(props: { openFormCB: () => void }) {
       >
         Open Form
       </button>
+      <button
+        className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 my-4 font-bold rounded-lg"
+        onClick={props.openFormCB}
+      >
+        Open Form
+      </button>
     </div>
   );
 }

@@ -1,18 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import FormField from "./FormField";
 
-interface formData {
-  id: number;
-  title: string;
-  formFields: formField[];
-}
-
-interface formField {
-  id: number;
-  label: string;
-  input: string;
-  value: string;
-}
+// loading of interfaces
+import formField from "../Interfaces/formField";
+import formData from "../Interfaces/formData";
+import FormListView from "./FormsListView";
 
 const initialformFields: formField[] = [
   { id: 1, label: "First Name", input: "text", value: "" },
@@ -26,18 +18,23 @@ const getLocalForms: () => formData[] = () => {
   const savedFormsJSON = localStorage.getItem("savedForms");
   return savedFormsJSON ? JSON.parse(savedFormsJSON) : [];
 };
-const initialState: () => formData = () => {
+
+const initialState: (id: number) => formData = (id: number) => {
   const localForms = getLocalForms();
-  if (localForms.length > 0) {
-    return localForms[0];
+  if (id === 0) {
+    console.log("Going to create a new form");
+    const newForm = {
+      id: Number(new Date()),
+      title: "Untitled Form",
+      formFields: initialformFields,
+    };
+    id = newForm.id;
+    console.log("New form id", newForm.id);
+    saveLocalForms([...localForms, newForm]);
+    console.log(newForm);
+    return newForm;
   }
-  const newForm = {
-    id: Number(new Date()),
-    title: "Untitled Form",
-    formFields: initialformFields,
-  };
-  saveLocalForms([...localForms, newForm]);
-  return newForm;
+  return localForms.filter((form) => form.id === id)[0];
 };
 
 const saveLocalForms = (localForms: formData[]) => {
@@ -52,8 +49,11 @@ const saveFormData = (currentState: formData) => {
   saveLocalForms(updatedLocalForms);
 };
 
-export default function Form(props: { closeFormCB: () => void }) {
-  const [state, setState] = useState(() => initialState());
+export default function Form(props: {
+  formId: number;
+  closeFormCB: () => void;
+}) {
+  const [state, setState] = useState(() => initialState(props.formId));
   const [newField, setNewField] = useState("");
   const titleRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
@@ -69,6 +69,7 @@ export default function Form(props: { closeFormCB: () => void }) {
   useEffect(() => {
     const timeout = setTimeout(() => {
       console.log("State is being changed");
+      console.log(state);
       saveFormData(state);
     }, 1000);
     return () => {
@@ -112,9 +113,11 @@ export default function Form(props: { closeFormCB: () => void }) {
       }),
     });
   };
+
   return (
     <div className="flex flex-col gap-2 p-4 divide-y-2 divide-dotted">
       <div>
+        {state.id}
         <input
           value={state.title}
           className="border-2 border-gray-200 rounded-lg p-2 m-2 w-full focus:outline-blue-500 flex-1"

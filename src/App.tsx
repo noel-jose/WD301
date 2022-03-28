@@ -3,29 +3,29 @@ import Header from "./Components/Header";
 import AppContainer from "./Components/AppContainer";
 import Form from "./Components/Form";
 import Home from "./Components/Home";
+import FormListView from "./Components/FormsListView";
 
 function App() {
-  const [state, setState] = useState("HOME");
+  const [state, setState] = useState(-1);
 
-  const openForm = () => {
-    setState("FORM");
+  const openForm = (id: number) => {
+    setState(id);
   };
 
   const closeForm = () => {
-    setState("HOME");
+    setState(-1);
   };
 
   return (
     <AppContainer>
       <div className="p-4 mx-96 bg-white shadow-lg rounded-xl">
-        <Header
-          title={"Welcome to Lesson 5 of $react-typescript with #tailwind"}
-        />
-        {state === "HOME" ? (
-          <Home openFormCB={openForm} />
+        <Header title={"React Forms"} />
+        {state === -1 ? (
+          <FormListView openFormCB={openForm} />
         ) : (
-          <Form closeFormCB={closeForm} />
+          <Form formId={state} closeFormCB={closeForm} />
         )}
+        {/* <FormListView /> */}
       </div>
     </AppContainer>
   );

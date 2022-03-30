@@ -6,34 +6,15 @@ import formField from "../Interfaces/formField";
 import formData from "../Interfaces/formData";
 import FormListView from "./FormsListView";
 
-const initialformFields: formField[] = [
-  { id: 1, label: "First Name", input: "text", value: "" },
-  { id: 2, label: "Last Name", input: "text", value: "" },
-  { id: 3, label: "Email ", input: "email", value: "" },
-  { id: 4, label: "Phone Number ", input: "number", value: "" },
-  { id: 5, label: "Date of Birth", input: "date", value: "" },
-];
-
+// getting data from the saved forms
 const getLocalForms: () => formData[] = () => {
   const savedFormsJSON = localStorage.getItem("savedForms");
   return savedFormsJSON ? JSON.parse(savedFormsJSON) : [];
 };
 
+// initializing a form
 const initialState: (id: number) => formData = (id: number) => {
   const localForms = getLocalForms();
-  if (id === 0) {
-    console.log("Going to create a new form");
-    const newForm = {
-      id: Number(new Date()),
-      title: "Untitled Form",
-      formFields: initialformFields,
-    };
-    id = newForm.id;
-    console.log("New form id", newForm.id);
-    saveLocalForms([...localForms, newForm]);
-    console.log(newForm);
-    return newForm;
-  }
   return localForms.filter((form) => form.id === id)[0];
 };
 
@@ -68,8 +49,6 @@ export default function Form(props: {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      console.log("State is being changed");
-      console.log(state);
       saveFormData(state);
     }, 1000);
     return () => {
@@ -98,7 +77,7 @@ export default function Form(props: {
   const clearForm = () => {
     setState({
       ...state,
-      formFields: state.formFields.map((field) => ({ ...field, value: " " })),
+      formFields: state.formFields.map((field) => ({ ...field, value: "" })),
     });
   };
 
@@ -117,7 +96,6 @@ export default function Form(props: {
   return (
     <div className="flex flex-col gap-2 p-4 divide-y-2 divide-dotted">
       <div>
-        {state.id}
         <input
           value={state.title}
           className="border-2 border-gray-200 rounded-lg p-2 m-2 w-full focus:outline-blue-500 flex-1"

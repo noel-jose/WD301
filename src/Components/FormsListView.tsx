@@ -2,11 +2,24 @@ import React, { useState } from "react";
 
 // loading interfaces
 import formData from "../Interfaces/formData";
+import formField from "../Interfaces/formField";
+
+const initialformFields: formField[] = [
+  { id: 1, label: "First Name", input: "text", value: "" },
+  { id: 2, label: "Last Name", input: "text", value: "" },
+  { id: 3, label: "Email ", input: "email", value: "" },
+  { id: 4, label: "Phone Number ", input: "number", value: "" },
+  { id: 5, label: "Date of Birth", input: "date", value: "" },
+];
+
+// saving data to local storage
+const saveLocalForms = (localForms: formData[]) => {
+  localStorage.setItem("savedForms", JSON.stringify(localForms));
+};
 
 // fetching the saved forms in the localStorage
 const getLocalForms: () => formData[] = () => {
   const savedFormsJSON = localStorage.getItem("savedForms");
-  // console.log(savedFormsJSON);
   return savedFormsJSON ? JSON.parse(savedFormsJSON) : [];
 };
 
@@ -16,6 +29,18 @@ const deleteForm: (id: number) => formData[] = (id: number) => {
   const modifiedForms = localForms.filter((form) => form.id !== id);
   localStorage.setItem("savedForms", JSON.stringify(modifiedForms));
   return modifiedForms;
+};
+
+//function to create a new form
+const createForm = () => {
+  const localForms = getLocalForms();
+  const NewForm = {
+    id: Number(new Date()),
+    title: "Untitled Form",
+    formFields: initialformFields,
+  };
+  saveLocalForms([...localForms, NewForm]);
+  return NewForm.id;
 };
 
 export default function FormListView(props: {
@@ -36,7 +61,7 @@ export default function FormListView(props: {
         forms.map((form) => (
           <div
             key={form.id}
-            className="flex justify-between p-4 rounded-lg shadow-md w-auto"
+            className="flex justify-between gap-5 p-4 rounded-lg shadow-md w-auto"
           >
             <div className="font-semibold mr-2">{form.title}</div>
             <div className="flex justify-between">
@@ -61,7 +86,7 @@ export default function FormListView(props: {
       <div className="flex justify-end">
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 my-4 font-bold rounded-lg w-full"
-          onClick={(_) => props.openFormCB(0)}
+          onClick={(_) => props.openFormCB(createForm())}
         >
           Create Form
         </button>

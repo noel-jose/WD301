@@ -16,18 +16,10 @@ function App() {
     setState(-1);
   };
 
-  return (
-    <AppContainer>
-      <div className="p-4 mx-96 bg-white shadow-lg rounded-xl">
-        <Header title={"React Forms"} />
-        {state === -1 ? (
-          <FormListView openFormCB={openForm} />
-        ) : (
-          <Form formId={state} closeFormCB={closeForm} />
-        )}
-        {/* <FormListView /> */}
-      </div>
-    </AppContainer>
+  return state === -1 ? (
+    <FormListView openFormCB={openForm} />
+  ) : (
+    <Form formId={state} closeFormCB={closeForm} />
   );
 }
 

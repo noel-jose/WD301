@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import FormField from "./FormField";
+import { createForm, saveLocalForms } from "../utils/utils";
 
 // loading of interfaces
 import formField from "../Interfaces/formField";
@@ -15,11 +16,7 @@ const getLocalForms: () => formData[] = () => {
 // initializing a form
 const initialState: (id: number) => formData = (id: number) => {
   const localForms = getLocalForms();
-  return localForms.filter((form) => form.id === id)[0];
-};
-
-const saveLocalForms = (localForms: formData[]) => {
-  localStorage.setItem("savedForms", JSON.stringify(localForms));
+  return localForms.find((form) => form.id === id) || createForm();
 };
 
 const saveFormData = (currentState: formData) => {
@@ -30,10 +27,7 @@ const saveFormData = (currentState: formData) => {
   saveLocalForms(updatedLocalForms);
 };
 
-export default function Form(props: {
-  formId: number;
-  closeFormCB: () => void;
-}) {
+export default function Form(props: { formId: number }) {
   const [state, setState] = useState(() => initialState(props.formId));
   const [newField, setNewField] = useState("");
   const titleRef = useRef<HTMLInputElement>(null);
@@ -48,6 +42,7 @@ export default function Form(props: {
   }, []);
 
   useEffect(() => {
+    console.log(state);
     const timeout = setTimeout(() => {
       saveFormData(state);
     }, 1000);
@@ -135,12 +130,12 @@ export default function Form(props: {
         >
           Save
         </button>
-        <button
+        <a
           className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 my-4 font-bold rounded-lg"
-          onClick={props.closeFormCB}
+          href="/"
         >
           Close Form
-        </button>
+        </a>
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 my-4 font-bold rounded-lg"
           onClick={clearForm}

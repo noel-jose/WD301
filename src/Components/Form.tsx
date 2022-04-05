@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import FormField from "./FormField";
 import { createForm, saveLocalForms } from "../utils/utils";
+import { Link } from "raviger";
 
 // loading of interfaces
 import formField from "../Interfaces/formField";
 import formData from "../Interfaces/formData";
 import FormListView from "./FormsListView";
+import { navigate } from "raviger";
 
 // getting data from the saved forms
 const getLocalForms: () => formData[] = () => {
@@ -40,6 +42,10 @@ export default function Form(props: { formId: number }) {
       document.title = "React App";
     };
   }, []);
+
+  useEffect(() => {
+    state.id !== props.formId && navigate(`/forms/${state.id}`);
+  }, [state.id, props.formId]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -129,12 +135,12 @@ export default function Form(props: { formId: number }) {
         >
           Save
         </button>
-        <a
+        <Link
           className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 my-4 font-bold rounded-lg"
           href="/"
         >
           Close Form
-        </a>
+        </Link>
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 my-4 font-bold rounded-lg"
           onClick={clearForm}

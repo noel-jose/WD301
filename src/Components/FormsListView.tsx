@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useQueryParams } from "raviger";
+import { Link } from "raviger";
 
 import { getLocalForms, saveLocalForms } from "../utils/utils";
 // loading interfaces
@@ -56,12 +57,12 @@ export default function FormListView() {
               {form.id}
               <div className="font-semibold mr-2">{form.title}</div>
               <div className="flex justify-between">
-                <a
+                <Link
                   href={"/forms/" + form.id}
                   className="bg-green-500 hover:bg-green-700 text-white px-2 py-1  mx-2 font-bold rounded-lg"
                 >
                   Open
-                </a>
+                </Link>
                 <button
                   onClick={(_) => deleteLocalForm(form.id)}
                   className="bg-red-500 hover:bg-red-700 text-white  px-2 py-1 mx-2 font-bold rounded-lg"
@@ -75,12 +76,12 @@ export default function FormListView() {
         <p>No Forms</p>
       )}
       <div className="flex justify-end">
-        <a
+        <Link
           href="/forms/create"
           className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 my-4 font-bold rounded-lg w-full"
         >
           Create Form
-        </a>
+        </Link>
       </div>
     </div>
   );

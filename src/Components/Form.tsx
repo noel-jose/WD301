@@ -42,7 +42,6 @@ export default function Form(props: { formId: number }) {
   }, []);
 
   useEffect(() => {
-    console.log(state);
     const timeout = setTimeout(() => {
       saveFormData(state);
     }, 1000);

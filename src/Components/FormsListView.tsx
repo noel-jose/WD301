@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useQueryParams } from "raviger";
 
 import { getLocalForms, saveLocalForms } from "../utils/utils";
 // loading interfaces
@@ -14,6 +15,8 @@ const deleteForm: (id: number) => formData[] = (id: number) => {
 };
 
 export default function FormListView() {
+  const [{ search }, setQuery] = useQueryParams();
+  const [searchString, setSearchString] = useState("");
   const [forms, setForms] = useState(() => getLocalForms());
 
   // deletes the form and updates the savedForm in localStorage
@@ -22,33 +25,52 @@ export default function FormListView() {
   };
 
   console.log(forms);
-
+  console.log(searchString);
   return (
     <div className="p-2">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          setQuery({ search: searchString });
+        }}
+      >
+        <label htmlFor="search">Search</label>
+        <input
+          name="search"
+          value={searchString}
+          className="border-2 border-gray-200 rounded-lg p-2 m-2 w-full focus:outline-blue-500 flex-1"
+          type="text"
+          onChange={(e) => setSearchString(e.target.value)}
+        />
+      </form>
       {forms ? (
-        forms.map((form) => (
-          <div
-            key={form.id}
-            className="flex justify-between gap-5 p-4 rounded-lg shadow-md w-auto"
-          >
-            {form.id}
-            <div className="font-semibold mr-2">{form.title}</div>
-            <div className="flex justify-between">
-              <a
-                href={"/forms/" + form.id}
-                className="bg-green-500 hover:bg-green-700 text-white px-2 py-1  mx-2 font-bold rounded-lg"
-              >
-                Open
-              </a>
-              <button
-                onClick={(_) => deleteLocalForm(form.id)}
-                className="bg-red-500 hover:bg-red-700 text-white  px-2 py-1 mx-2 font-bold rounded-lg"
-              >
-                Delete
-              </button>
+        forms
+          .filter((form) =>
+            form.title.toLowerCase().includes(search?.toLowerCase() || "")
+          )
+          .map((form) => (
+            <div
+              key={form.id}
+              className="flex justify-between gap-5 p-4 rounded-lg shadow-md w-auto"
+            >
+              {form.id}
+              <div className="font-semibold mr-2">{form.title}</div>
+              <div className="flex justify-between">
+                <a
+                  href={"/forms/" + form.id}
+                  className="bg-green-500 hover:bg-green-700 text-white px-2 py-1  mx-2 font-bold rounded-lg"
+                >
+                  Open
+                </a>
+                <button
+                  onClick={(_) => deleteLocalForm(form.id)}
+                  className="bg-red-500 hover:bg-red-700 text-white  px-2 py-1 mx-2 font-bold rounded-lg"
+                >
+                  Delete
+                </button>
+              </div>
             </div>
-          </div>
-        ))
+          ))
       ) : (
         <p>No Forms</p>
       )}

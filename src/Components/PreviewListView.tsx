@@ -70,7 +70,7 @@ export default function PreviewListView() {
             </div>
           ))
       ) : (
-        <p>No Forms</p>
+        <p>No Previews</p>
       )}
     </div>
   );

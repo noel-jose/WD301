@@ -10,17 +10,19 @@ const routes = {
   "/": () => <FormListView />,
   "/about": () => <About />,
   "/forms/create": () => <Form formId={0} />,
-  "/forms/:id": ({ id }: { id: string }) => <Form formId={Number(id)} />,
-  "/preview/:id": ({ id }: { id: string }) => (
-    <Preview previewId={Number(id)} questionId={0} />
+  "/forms/:formId": ({ formId }: { formId: string }) => (
+    <Form formId={Number(formId)} />
   ),
-  "/preview/:id/:questionid": ({
-    id,
+  "/preview/:formId": ({ formId }: { formId: string }) => (
+    <Preview previewId={Number(formId)} questionId={0} />
+  ),
+  "/preview/:formId/:questionid": ({
+    formId,
     questionid,
   }: {
-    id: string;
+    formId: string;
     questionid: string;
-  }) => <Preview previewId={Number(id)} questionId={Number(questionid)} />,
+  }) => <Preview previewId={Number(formId)} questionId={Number(questionid)} />,
   "/submissions": () => <PreviewListView />,
 };
 

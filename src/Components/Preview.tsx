@@ -70,7 +70,7 @@ export default function Preview(props: {
               {state.submitted === true ? (
                 <div>
                   {state.fields.map((field) => (
-                    <div>
+                    <div key={field.id}>
                       <h1>{field.label}</h1>
                       <input
                         className="border-2 border-gray-200 rounded-lg p-2 m-2 w-full "
@@ -86,7 +86,7 @@ export default function Preview(props: {
                   {state.fields
                     .filter((field) => field.id === props.questionId)
                     .map((field) => (
-                      <div>
+                      <div key={field.id}>
                         <PreviewField
                           key={field.id}
                           field={field}

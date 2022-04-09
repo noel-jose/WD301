@@ -42,7 +42,6 @@ export const createForm: () => formData = () => {
     formFields: initialformFields,
   };
   saveLocalForms([...localForms, NewForm]);
-  console.log("The new Set of saved forms", getLocalForms());
   return NewForm;
 };
 
@@ -69,7 +68,6 @@ export const createNewPreview: (form: formData) => previewData = (
     fields: form.formFields,
     submitted: false,
   };
-  console.log("Local Previews:", localPreviews);
   saveLocalPreview([...localPreviews, NewPreview]);
   return NewPreview;
 };

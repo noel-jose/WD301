@@ -31,12 +31,10 @@ const saveFormData = (currentState: formData) => {
 
 export default function Form(props: { formId: number }) {
   const [state, setState] = useState(() => initialState(props.formId));
-  console.log(state.formFields);
   const [newField, setNewField] = useState("");
   const [type, setType] = useState("text");
   const titleRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
-    console.log("Component mounted");
     const title = document.title;
     document.title = "Form Edit";
     titleRef.current?.focus();

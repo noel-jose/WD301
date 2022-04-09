@@ -60,10 +60,7 @@ export default function Preview(props: {
     <div>
       <div className="flex flex-col gap-2 p-4 divide-y-2 divide-dotted">
         <div>
-          <h1 className="text-xl font-semibold">
-            {state.title}
-            {state.id}
-          </h1>
+          <h1 className="text-xl font-semibold">{state.title}</h1>
         </div>
         <div>
           {state.submitted === true ? (
@@ -84,14 +81,14 @@ export default function Preview(props: {
             <div>
               {state.fields
                 .filter((field) => field.id === props.questionId)
-                .map((field, i) => (
+                .map((field) => (
                   <div>
                     <PreviewField
                       key={field.id}
                       field={field}
                       changeFieldCB={changeField}
                     />
-                    {i}
+
                     <div className="flex justify-between">
                       {props.questionId === 0 ? (
                         <div></div>

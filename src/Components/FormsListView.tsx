@@ -27,12 +27,9 @@ export default function FormListView() {
   //function to create a preview
   const createPreview = (form: formData) => {
     const newPreview = createNewPreview(form);
-    console.log(`Successfully created new Preview for ${form}`);
     navigate(`/preview/${newPreview.id}`);
   };
 
-  console.log(forms);
-  console.log(searchString);
   return (
     <div className="p-2">
       <form

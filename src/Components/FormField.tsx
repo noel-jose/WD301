@@ -1,20 +1,17 @@
 import React, { useState } from "react";
 
 export default function FormField(props: {
-  field: { id: number; label: string; input: string; value: string };
+  field: { id: number; label: string; inputtype: string; value: string };
   removeFieldCB: (id: number) => void;
   changeFieldCB: (key: number, value: string) => void;
 }) {
   return (
     <React.Fragment>
-      <label className="m-2" htmlFor="">
-        {props.field.label}
-      </label>
       <div className="flex gap-2">
         <input
-          value={props.field.value}
+          value={props.field.label}
           className="border-2 border-gray-200 rounded-lg p-2 m-2 w-full focus:outline-blue-500 flex-1"
-          type={props.field.input}
+          type="text"
           onChange={(e) => {
             props.changeFieldCB(props.field.id, e.target.value);
           }}

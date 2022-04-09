@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { useQueryParams } from "raviger";
+import { useQueryParams, navigate } from "raviger";
 import { Link } from "raviger";
 
-import { getLocalForms, saveLocalForms } from "../utils/utils";
+import { createNewPreview, getLocalForms } from "../utils/utils";
 // loading interfaces
 import formData from "../Interfaces/formData";
-import formField from "../Interfaces/formField";
 
 // deleting the form from savedForms whoose id is specified
 const deleteForm: (id: number) => formData[] = (id: number) => {
@@ -23,6 +22,13 @@ export default function FormListView() {
   // deletes the form and updates the savedForm in localStorage
   const deleteLocalForm: (id: number) => void = (id: number) => {
     setForms(deleteForm(id));
+  };
+
+  //function to create a preview
+  const createPreview = (form: formData) => {
+    const newPreview = createNewPreview(form);
+    console.log(`Successfully created new Preview for ${form}`);
+    navigate(`/preview/${newPreview.id}`);
   };
 
   console.log(forms);
@@ -54,15 +60,22 @@ export default function FormListView() {
               key={form.id}
               className="flex justify-between gap-5 p-4 rounded-lg shadow-md w-auto"
             >
-              {form.id}
               <div className="font-semibold mr-2">{form.title}</div>
               <div className="flex justify-between">
                 <Link
                   href={"/forms/" + form.id}
                   className="bg-green-500 hover:bg-green-700 text-white px-2 py-1  mx-2 font-bold rounded-lg"
                 >
-                  Open
+                  Edit
                 </Link>
+
+                <button
+                  onClick={(_) => createPreview(form)}
+                  className="bg-yellow-500 hover:bg-yellow-700 text-white px-2 py-1  mx-2 font-bold rounded-lg"
+                >
+                  Quiz
+                </button>
+
                 <button
                   onClick={(_) => deleteLocalForm(form.id)}
                   className="bg-red-500 hover:bg-red-700 text-white  px-2 py-1 mx-2 font-bold rounded-lg"
@@ -77,8 +90,8 @@ export default function FormListView() {
       )}
       <div className="flex justify-end">
         <Link
-          href="/forms/create"
-          className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 my-4 font-bold rounded-lg w-full"
+          href="/forms/0"
+          className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 my-4 font-bold rounded-lg w-full text-center"
         >
           Create Form
         </Link>

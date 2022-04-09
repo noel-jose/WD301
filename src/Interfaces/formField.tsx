@@ -3,6 +3,6 @@ import React from "react";
 export default interface formField {
   id: number;
   label: string;
-  input: string;
+  inputtype: string;
   value: string;
 }

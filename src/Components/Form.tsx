@@ -2,12 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import FormField from "./FormField";
 import { createForm, saveLocalForms } from "../utils/utils";
 import { Link } from "raviger";
+import { navigate } from "raviger";
 
 // loading of interfaces
-import formField from "../Interfaces/formField";
+
 import formData from "../Interfaces/formData";
-import FormListView from "./FormsListView";
-import { navigate } from "raviger";
+import { formInputType } from "../utils/utils";
 
 // getting data from the saved forms
 const getLocalForms: () => formData[] = () => {
@@ -31,7 +31,9 @@ const saveFormData = (currentState: formData) => {
 
 export default function Form(props: { formId: number }) {
   const [state, setState] = useState(() => initialState(props.formId));
+  console.log(state.formFields);
   const [newField, setNewField] = useState("");
+  const [type, setType] = useState("text");
   const titleRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     console.log("Component mounted");
@@ -61,12 +63,18 @@ export default function Form(props: { formId: number }) {
       ...state,
       formFields: [
         ...state.formFields,
-        { id: Number(Date.now()), label: newField, input: "text", value: "" },
+        {
+          id: state.formFields.length,
+          label: newField,
+          inputtype: type,
+          value: "",
+        },
       ],
     });
     setNewField("");
   };
 
+  // function to remove a question in a quiz
   const removeField = (id: number) => {
     setState({
       ...state,
@@ -74,19 +82,13 @@ export default function Form(props: { formId: number }) {
     });
   };
 
-  const clearForm = () => {
-    setState({
-      ...state,
-      formFields: state.formFields.map((field) => ({ ...field, value: "" })),
-    });
-  };
-
+  // function to change the question in a quiz
   const changeField = (id: number, value: string) => {
     setState({
       ...state,
       formFields: state.formFields.map((field) => {
         if (field.id === id) {
-          return { ...field, value: value };
+          return { ...field, label: value };
         }
         return field;
       }),
@@ -94,7 +96,7 @@ export default function Form(props: { formId: number }) {
   };
 
   return (
-    <div className="flex flex-col gap-2 p-4 divide-y-2 divide-dotted">
+    <div className="flex flex-col gap-2 p-4 divide-y-4 divide-dotted">
       <div>
         <input
           value={state.title}
@@ -114,13 +116,29 @@ export default function Form(props: { formId: number }) {
           />
         ))}
       </div>
-      <div className="flex">
-        <input
-          value={newField}
-          className="border-2 border-gray-200 rounded-lg p-2 m-2 w-full focus:outline-blue-500 flex-1"
-          type="text"
-          onChange={(e) => setNewField(e.target.value)}
-        />
+      <div className="flex ">
+        <div>
+          <label htmlFor="questiontitle">Question</label>
+          <input
+            name="questiontitle"
+            value={newField}
+            className="border-2 border-gray-200 rounded-lg p-2 m-2  focus:outline-blue-500 flex-1"
+            type="text"
+            onChange={(e) => setNewField(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="inputtype">Input Type</label>
+          <select
+            name="inputtype"
+            className="border-2 border-gray-200 rounded-lg p-2 m-2  focus:outline-blue-500 flex-1"
+            onChange={(e) => setType(e.target.value)}
+          >
+            {formInputType.map((type) => (
+              <option value={type}>{type}</option>
+            ))}
+          </select>
+        </div>
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 my-4 font-bold rounded-lg"
           onClick={addField}
@@ -141,12 +159,6 @@ export default function Form(props: { formId: number }) {
         >
           Close Form
         </Link>
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 my-4 font-bold rounded-lg"
-          onClick={clearForm}
-        >
-          Clear Form
-        </button>
       </div>
     </div>
   );

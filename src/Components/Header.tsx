@@ -13,6 +13,7 @@ export default function Header(props: { title: string }) {
         {[
           { page: "Home", url: "/" },
           { page: "about", url: "/about" },
+          { page: "Submissions", url: "/submissions" },
         ].map((link) => (
           <ActiveLink
             key={link.url}

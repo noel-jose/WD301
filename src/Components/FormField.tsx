@@ -1,7 +1,14 @@
 import React, { useState } from "react";
+import { formFieldType, textFieldTypes } from "../types/formField";
 
 export default function FormField(props: {
-  field: { id: number; label: string; inputtype: string; value: string };
+  field: {
+    kind: formFieldType;
+    id: number;
+    label: string;
+    fieldType?: textFieldTypes;
+    value: string;
+  };
   removeFieldCB: (id: number) => void;
   changeFieldCB: (key: number, value: string) => void;
 }) {

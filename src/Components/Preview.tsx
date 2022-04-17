@@ -7,7 +7,7 @@ import { navigate } from "raviger";
 
 // loading of interfaces
 
-import previewData from "../Interfaces/previewData";
+import { previewData } from "../types/previewData";
 
 const initializePreview = (previewId: number) => {
   const localPreviews = getLocalPreview();

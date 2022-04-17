@@ -4,7 +4,7 @@ import { Link } from "raviger";
 
 import { createNewPreview, getLocalForms } from "../utils/utils";
 // loading interfaces
-import formData from "../Interfaces/formData";
+import { formData } from "../types/formData";
 
 // deleting the form from savedForms whoose id is specified
 const deleteForm: (id: number) => formData[] = (id: number) => {

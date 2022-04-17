@@ -13,6 +13,7 @@
     "raviger": "^4.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-multi-select-component": "^4.2.4",
     "react-scripts": "5.0.0",
     "typescript": "^4.6.2",
     "web-vitals": "^2.1.4"

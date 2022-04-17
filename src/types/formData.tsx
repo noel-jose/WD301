@@ -1,7 +1,7 @@
 import React from "react";
-import formField from "./formField";
-export default interface formData {
+import { formField } from "./formField";
+export type formData = {
   id: number;
   title: string;
   formFields: formField[];
-}
+};

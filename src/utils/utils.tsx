@@ -1,6 +1,6 @@
-import formData from "../Interfaces/formData";
-import formField from "../Interfaces/formField";
-import previewData from "../Interfaces/previewData";
+import { formData } from "../types/formData";
+import { formField } from "../types/formField";
+import { previewData } from "../types/previewData";
 
 const initialformFields: formField[] = [
   // { id: 1, label: "First Name", input: "text", value: "" },
@@ -14,12 +14,11 @@ export const formInputType: string[] = [
   "text",
   "number",
   "date",
-  "time",
-  "datetime-local",
   "email",
-  "tel",
-  "url",
+  "dropdown",
+  "radio",
   "textarea",
+  "multiselect",
 ];
 
 // saving data to local storage

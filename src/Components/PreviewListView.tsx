@@ -5,7 +5,7 @@ import { Link } from "raviger";
 import { getLocalPreview } from "../utils/utils";
 // loading interfaces
 
-import previewData from "../Interfaces/previewData";
+import { previewData } from "../types/previewData";
 
 // deleting the preview form saved Previews
 const deletePreview: (id: number) => previewData[] = (id: number) => {
